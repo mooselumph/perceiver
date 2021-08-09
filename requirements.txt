@@ -1,0 +1,8 @@
+tqdm==4.62.0 
+matplotlib
+ipywidgets
+seaborn
+more-itertools
+pydantic
+click
+einops

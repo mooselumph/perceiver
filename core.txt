@@ -1,0 +1,4 @@
+git+https://github.com/deepmind/dm-haiku
+git+git://github.com/deepmind/optax.git
+flax
+neural-tangents 

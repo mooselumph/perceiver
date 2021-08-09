@@ -1,0 +1,16 @@
+services:
+    jupyter:
+        build: .
+        runtime: nvidia
+        user: root
+        ports:
+          - "8888:8888"
+        volumes:
+          - ${PWD}/code:/home/jovyan/work              
+        environment: 
+            - NB_UID=1008 
+            - NB_GID=1008 
+            - CHOWN_HOME=yes
+            - CHOWN_HOME_OPTS=-R
+            - NVIDIA_VISIBLE_DEVICES=all
+        
