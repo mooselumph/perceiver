@@ -14,7 +14,6 @@ from tqdm.auto import tqdm
 import optax
 
 from config import ConfigSchema
-from data import get_datasets
 
 from functools import partial
 

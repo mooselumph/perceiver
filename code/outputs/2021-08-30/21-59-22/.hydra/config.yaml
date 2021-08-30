@@ -1,0 +1,31 @@
+model:
+  input_shape:
+  - 600
+  - 3
+  weight_tie_pattern:
+  - 0
+  - 1
+  - 1
+  - 1
+  num_freq_bands: 5
+  max_freq: 20.0
+  freq_base: 2
+  num_latents: 16
+  latent_dim: 16
+  cross_heads: 1
+  cross_head_dim: 16
+  latent_heads: 4
+  latent_head_dim: 16
+  num_classes: 2
+  attn_dropout: 0.0
+  ff_dropout: 0.0
+  fourier_encode_data: true
+  self_per_cross_attn: 2
+optimizer:
+  lr: 0.001
+  momentum: 0.9
+train:
+  batch_size: 256
+  num_epochs: 10
+logging:
+  workdir: ../tensorboard/maglt4_batch256

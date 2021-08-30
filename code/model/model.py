@@ -136,6 +136,8 @@ class AttentionBlock(nn.Module):
 
 class Perceiver(nn.Module):
 
+  input_shape: Tuple[int]
+
   weight_tie_pattern: Tuple[int]
 
   num_freq_bands: int
@@ -192,6 +194,8 @@ class Perceiver(nn.Module):
 
     # concat to channels of data and flatten axis
     data = rearrange(data, 'b ... d -> b (...) d')
+
+    # self.sow('intermediates', 'features', data)
 
     x = self.param('initial_state',init.normal(),(self.num_latents, self.latent_dim))
 

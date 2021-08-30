@@ -3,6 +3,7 @@ matplotlib
 ipywidgets
 seaborn
 more-itertools
-pydantic
-click
 einops
+optuna
+hydra-core
+hydra-optuna-sweeper 

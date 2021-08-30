@@ -1,22 +1,20 @@
 import logging
-import click
 
-from config import get_config, DEFAULT_CONFIG_FILE
-from train import train_and_evaluate
 import jax
 import tensorflow as tf
 
 
-@click.group()
-def cli():
-    pass
+import hydra
+from omegaconf import DictConfig
 
-@cli.command()
-@click.option('--config_file', default=DEFAULT_CONFIG_FILE, help='Config file.', type=str)
-@click.option('--workdir', default='../')
-def train(config_file,workdir):
+from model.model import Perceiver
+from data import get_stead
+from train_stead import train_and_evaluate
 
-    config = get_config(config_file)
+from utils import make_absolute
+
+@hydra.main(config_path='configs',config_name='default')
+def main(config):
 
     # Hide any GPUs from TensorFlow. Otherwise TF might reserve memory and make
     # it unavailable to JAX.
@@ -25,6 +23,7 @@ def train(config_file,workdir):
     logging.info('JAX process: %d / %d', jax.process_index(), jax.process_count())
     logging.info('JAX local devices: %r', jax.local_devices())
 
+    
     # Add a note so that we can tell which task is which JAX host.
     # (Depending on the platform task 0 is not guaranteed to be host 0)
     #   platform.work_unit().set_task_status(f'process_index: {jax.process_index()}, '
@@ -32,8 +31,14 @@ def train(config_file,workdir):
     #   platform.work_unit().create_artifact(platform.ArtifactType.DIRECTORY,
     #                                        FLAGS.workdir, 'workdir')
 
-    train_and_evaluate(config, workdir)
-#
+    model = Perceiver(**config.model)
+
+    train_ds,test_ds = get_stead(batch_size=config.train.batch_size)
+
+    workdir = make_absolute(config.logging.workdir)
+
+    state = train_and_evaluate(config, model, train_ds, test_ds, workdir)
+
 
 if __name__ == '__main__':
-    cli()
+    main()

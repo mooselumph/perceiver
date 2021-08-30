@@ -5,8 +5,10 @@ services:
         user: root
         ports:
           - "8888:8888"
+          - "6006:6006"
         volumes:
-          - ${PWD}/code:/home/jovyan/work              
+          - ${PWD}/code:/home/jovyan/work
+          - /home/raynor/datasets/:/home/jovyan/datasets 
         environment: 
             - NB_UID=1008 
             - NB_GID=1008 
